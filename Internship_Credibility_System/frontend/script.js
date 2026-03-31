@@ -22,7 +22,7 @@ document.getElementById('verifyForm').addEventListener('submit', async (e) => {
     loader.style.display = 'flex';
 
     try {
-        const response = await fetch('https://internship-credibility-model.onrender.com/', {
+        const response = await fetch('https://internship-ai-backend.onrender.com/predict', {
  {
                 'Content-Type': 'application/json'
             },
