@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Credibility AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <header>
+            <div class="logo-box">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h1>Internship Credibility AI</h1>
+            <p>Verify job postings in real-time deep learning capabilities</p>
+        </header>
+
+        <main class="grid-layout">
+            <section class="glass-card input-section">
+                <h2><i class="fa-solid fa-file-pen"></i> Job Details</h2>
+                <form id="verifyForm">
+                    <div class="input-group">
+                        <label for="company_name">Company Name</label>
+                        <input type="text" id="company_name" placeholder="E.g. Acme Corp" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="salary">Salary / Stipend</label>
+                        <input type="text" id="salary" placeholder="E.g. $50,000 or Unpaid">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="job_link">Job Link (Optional)</label>
+                        <input type="url" id="job_link" placeholder="https://linkedin.com/job/1234">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="job_description">Job Description</label>
+                        <textarea id="job_description" rows="6" placeholder="Paste the full job description here..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="primary-btn" id="submitBtn">
+                        <i class="fa-solid fa-microchip"></i> Verify Credibility
+                    </button>
+                </form>
+            </section>
+
+            <section class="glass-card result-section" id="resultCard" style="display: none;">
+                <h2><i class="fa-solid fa-square-poll-vertical"></i> Analysis Result</h2>
+
+                <div class="score-container">
+                    <div class="circular-progress" id="progressCircle">
+                        <div class="inner-circle">
+                            <h3 id="scoreText">0%</h3>
+                        </div>
+                    </div>
+                    <div class="status-badge" id="statusBadge">Analyzing...</div>
+                </div>
+
+                <div class="reasons-box">
+                    <h4><i class="fa-solid fa-list-check"></i> Observations</h4>
+                    <ul id="reasonsList"></ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4><i class="fa-solid fa-highlighter"></i> Highlighted Text</h4>
+                    <p id="highlightedTextDisplay"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loader" style="display: none;">
+        <div class="loader-spinner"></div>
+        <p>Running Neural Network & Rule Engines...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
