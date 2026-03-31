@@ -22,29 +22,30 @@ document.getElementById('verifyForm').addEventListener('submit', async (e) => {
     loader.style.display = 'flex';
 
     try {
-        const response = await fetch('https://internship-ai-backend.onrender.com/predict', {
- {
+        const response = await fetch('https://internship-credibility-model.onrender.com/predict', {
+            method: 'POST',
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         });
 
-if (!response.ok) {
-    throw new Error(`Server Error: ${response.status}`);
-}
+        if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+        }
 
-const data = await response.json();
+        const data = await response.json();
 
-// Hide loader
-loader.style.display = 'none';
+        // Hide loader
+        loader.style.display = 'none';
 
-displayResults(data, description);
+        displayResults(data, description);
 
     } catch (error) {
-    loader.style.display = 'none';
-    alert("Failed to connect to the analysis server. Make sure the FastAPI backend is running.");
-    console.error("API Error:", error);
-}
+        loader.style.display = 'none';
+        alert("Failed to connect to the analysis server. Make sure the FastAPI backend is running.");
+        console.error("API Error:", error);
+    }
 });
 
 function displayResults(data, originalDesc) {
