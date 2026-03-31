@@ -20,6 +20,13 @@ document.getElementById('verifyForm').addEventListener('submit', async (e) => {
     // Show Loading
     resultCard.style.display = 'none';
     loader.style.display = 'flex';
+    const loaderText = loader.querySelector('p');
+    loaderText.textContent = "Running Neural Network & Rule Engine...";
+
+    // Render Free Tier Cold-Start UX handling
+    const coldStartWarning = setTimeout(() => {
+        loaderText.textContent = "Waking up Cloud Server (Free Tier)... this can take up to 60 seconds.";
+    }, 4000);
 
     try {
         const response = await fetch('https://internship-credibility-model.onrender.com/predict', {
@@ -38,11 +45,13 @@ document.getElementById('verifyForm').addEventListener('submit', async (e) => {
 
         // Hide loader
         loader.style.display = 'none';
+        clearTimeout(coldStartWarning);
 
         displayResults(data, description);
 
     } catch (error) {
         loader.style.display = 'none';
+        clearTimeout(coldStartWarning);
         alert("Failed to connect to the analysis server. Make sure the FastAPI backend is running.");
         console.error("API Error:", error);
     }
