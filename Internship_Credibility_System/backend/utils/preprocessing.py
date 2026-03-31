@@ -1,5 +1,4 @@
 import re
-from transformers import AutoTokenizer
 
 def clean_text(text: str) -> str:
     '''Cleans job description text by removing HTML tags, URLs, 
@@ -25,18 +24,3 @@ def prepare_input_text(job_desc: str, company_name: str, email: str, salary: str
     # We combine them into a single string. The transformer will learn the interactions.
     combined_text = f"[COMPANY] {company_name} [EMAIL] {email} [SALARY] {salary} [DESC] {job_desc}"
     return combined_text
-
-class JobScamTokenizer:
-    def __init__(self, model_name="distilbert-base-uncased", max_length=512):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.max_length = max_length
-
-    def tokenize(self, texts):
-        '''Tokenizes a list of strings or a single string.'''
-        return self.tokenizer(
-            texts,
-            padding=True,
-            truncation=True,
-            max_length=self.max_length,
-            return_tensors="pt"
-        )
