@@ -15,8 +15,16 @@ from utils.rules import run_hybrid_checks
 app = FastAPI(title="Internship Credibility API", version="1.0.0")
 
 # Determine the absolute path to the frontend directory
-BASE_DIR = Path(__file__).resolve().parent.parent
-frontend_path = BASE_DIR / "frontend"
+# We try multiple locations to be robust across different deployment environments
+frontend_path = Path("frontend").resolve()
+if not frontend_path.exists():
+    # If starting from backend/ folder
+    frontend_path = Path("../frontend").resolve()
+if not frontend_path.exists():
+    # Absolute fallback (Current File -> backend -> root -> frontend)
+    frontend_path = Path(__file__).resolve().parent.parent / "frontend"
+
+print(f"Frontend path resolved to: {frontend_path}")
 
 # Define API routes first
 @app.get("/health")
