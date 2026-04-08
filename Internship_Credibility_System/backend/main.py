@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import uvicorn
 import math
 import os
+from pathlib import Path
 
 from model.inference import CredibilityModel
 from utils.preprocessing import prepare_input_text
@@ -13,17 +14,14 @@ from utils.rules import run_hybrid_checks
 
 app = FastAPI(title="Internship Credibility API", version="1.0.0")
 
-# Serve static files from the frontend directory
-# We check if we are running in the backend folder or root
-frontend_path = "frontend"
-if not os.path.exists(frontend_path):
-    frontend_path = "../frontend"
+# Determine the absolute path to the frontend directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+frontend_path = BASE_DIR / "frontend"
 
-@app.get("/")
-async def read_index():
-    return FileResponse(os.path.join(frontend_path, "index.html"))
-
-app.mount("/frontend", StaticFiles(directory=frontend_path), name="static")
+# Define API routes first
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "model_loaded": model.is_loaded}
 
 # Allow CORS for frontend
 app.add_middleware(
@@ -44,10 +42,11 @@ class JobPosting(BaseModel):
     salary: str = ""
     job_link: str = ""
 
-@app.get("/health")
-def health_check():
+@app.get("/health_legacy")
+def health_check_legacy():
     return {"status": "ok", "model_loaded": model.is_loaded}
 
+# Mount static files at the root - MUST BE LAST
 @app.post("/predict")
 def predict_credibility(job: JobPosting):
     try:
@@ -100,6 +99,9 @@ def predict_credibility(job: JobPosting):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Mount static files at the root - MUST BE LAST
+app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="static")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

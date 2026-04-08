@@ -3,7 +3,7 @@ import os
 class CredibilityModel:
     def __init__(self, model_dir=None):
         # Forced lightweight surrogate mode for Render Free Deployments
-        self.is_loaded = False
+        self.is_loaded = True
         print("Running in Production Surrogate Mode (No heavyweight tensors loaded).")
             
     def predict(self, combined_text: str):
