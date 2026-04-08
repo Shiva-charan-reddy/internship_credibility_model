@@ -1,3 +1,15 @@
+// Interactive Background Blob Tracker
+const blob = document.getElementById("blob");
+window.onpointermove = event => {
+    const { clientX, clientY } = event;
+
+    // Animate the blob towards the mouse smoothly
+    blob.animate({
+        left: `${clientX}px`,
+        top: `${clientY}px`
+    }, { duration: 3000, fill: "forwards" });
+}
+
 document.getElementById('verifyForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
