@@ -5,3 +5,5 @@ scikit-learn
 jinja2
 python-multipart
 requests
+aiofiles
+gunicorn

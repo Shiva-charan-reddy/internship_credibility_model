@@ -1,14 +1,29 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import uvicorn
 import math
+import os
 
 from model.inference import CredibilityModel
 from utils.preprocessing import prepare_input_text
 from utils.rules import run_hybrid_checks
 
 app = FastAPI(title="Internship Credibility API", version="1.0.0")
+
+# Serve static files from the frontend directory
+# We check if we are running in the backend folder or root
+frontend_path = "frontend"
+if not os.path.exists(frontend_path):
+    frontend_path = "../frontend"
+
+@app.get("/")
+async def read_index():
+    return FileResponse(os.path.join(frontend_path, "index.html"))
+
+app.mount("/frontend", StaticFiles(directory=frontend_path), name="static")
 
 # Allow CORS for frontend
 app.add_middleware(

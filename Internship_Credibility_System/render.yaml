@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: internship-credibility-model
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker backend.main:app --bind 0.0.0.0:$PORT
+    region: singapore # Change to your preferred region
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
