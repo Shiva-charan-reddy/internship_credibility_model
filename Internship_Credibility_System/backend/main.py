@@ -6,7 +6,12 @@ from pydantic import BaseModel
 import uvicorn
 import math
 import os
+import sys
 from pathlib import Path
+
+# Fix: Ensure backend, model, and utils are in the Python Path for Render
+# This allows 'from model.inference...' and 'from utils...' to work correctly
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from model.inference import CredibilityModel
 from utils.preprocessing import prepare_input_text
